@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="build/index.js" type="module"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <template id="maff-slider">
+        <style>
+            label, p, input {
+                display: inline;
+            }
+        </style>
+        <p></p>
+        <label>
+            <span>unnamed slider</span>
+            <input type="range">
+        </label>
+    </template>
+
+    <div id="control-panel">
+        <maff-slider data-label="maffie" data-min="0" data-max="50" data-step="10" data-value="20"></maff-slider>
+    </div>
+</body>
+</html>

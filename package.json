@@ -1,0 +1,23 @@
+{
+  "name": "maffie-controller",
+  "version": "1.0.0",
+  "description": "no way it's cell engine but not??!!!!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maffiemaffie/maffie-controller.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maffiemaffie/maffie-controller/issues"
+  },
+  "homepage": "https://github.com/maffiemaffie/maffie-controller#readme",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
+}

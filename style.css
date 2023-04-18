@@ -1,0 +1,6 @@
+#control-panel {
+    display: grid;
+    grid-template: "a b c";
+    width: fit-content;
+    outline: solid red;
+}
