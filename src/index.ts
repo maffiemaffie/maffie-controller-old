@@ -62,3 +62,7 @@ interface UpdateListener {
 }
 
 customElements.define('maff-slider', MaffSlider);
+
+class LabeledControl extends HTMLElement {
+    #display:
+}
