@@ -3,7 +3,7 @@ class MaffSlider extends HTMLElement {
     #label:HTMLLabelElement;
     #input:HTMLInputElement;
     #shadowRoot:ShadowRoot;
-    #linkedTo:Array<LinkTarget> = [];
+    #updateListeners:Array<UpdateListener> = [];
 
     constructor(id:string, label:string) {
         super();
@@ -25,9 +25,9 @@ class MaffSlider extends HTMLElement {
         this.#display.innerText = this.#input.value;
         this.#input.addEventListener('input', e => {
             this.#display.innerText = (e.target as HTMLInputElement).value;
-            this.#linkedTo.forEach(target => {
-                target.obj[target.key] = (e.target as HTMLInputElement).value;
-            })
+            this.#updateListeners.forEach(listener => {
+                listener.onUpdate.call(listener, (e.target as HTMLInputElement).value);
+            });
         });
     }
 
@@ -52,14 +52,13 @@ class MaffSlider extends HTMLElement {
         }
     }
 
-    link(target:LinkTarget) {
-        this.#linkedTo.push(target);
+    addOnUpdate(listener:UpdateListener) {
+        this.#updateListeners.push(listener);
     }
 }
 
-interface LinkTarget {
-    key:string;
-    obj:object;
+interface UpdateListener {
+    onUpdate:(newValue:string) => void;
 }
 
 customElements.define('maff-slider', MaffSlider);

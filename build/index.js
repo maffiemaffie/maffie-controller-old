@@ -10,7 +10,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _MaffSlider_display, _MaffSlider_label, _MaffSlider_input, _MaffSlider_shadowRoot, _MaffSlider_linkedTo;
+var _MaffSlider_display, _MaffSlider_label, _MaffSlider_input, _MaffSlider_shadowRoot, _MaffSlider_updateListeners;
 class MaffSlider extends HTMLElement {
     constructor(id, label) {
         super();
@@ -18,7 +18,7 @@ class MaffSlider extends HTMLElement {
         _MaffSlider_label.set(this, void 0);
         _MaffSlider_input.set(this, void 0);
         _MaffSlider_shadowRoot.set(this, void 0);
-        _MaffSlider_linkedTo.set(this, []);
+        _MaffSlider_updateListeners.set(this, []);
         const template = document.querySelector('#maff-slider');
         const templateContent = template.content;
         __classPrivateFieldSet(this, _MaffSlider_shadowRoot, this.attachShadow({ mode: "open" }), "f");
@@ -32,8 +32,8 @@ class MaffSlider extends HTMLElement {
         __classPrivateFieldGet(this, _MaffSlider_display, "f").innerText = __classPrivateFieldGet(this, _MaffSlider_input, "f").value;
         __classPrivateFieldGet(this, _MaffSlider_input, "f").addEventListener('input', e => {
             __classPrivateFieldGet(this, _MaffSlider_display, "f").innerText = e.target.value;
-            __classPrivateFieldGet(this, _MaffSlider_linkedTo, "f").forEach(target => {
-                target.obj[target.key] = e.target.value;
+            __classPrivateFieldGet(this, _MaffSlider_updateListeners, "f").forEach(listener => {
+                listener.onUpdate.call(listener, e.target.value);
             });
         });
     }
@@ -58,9 +58,9 @@ class MaffSlider extends HTMLElement {
                 break;
         }
     }
-    link(target) {
-        __classPrivateFieldGet(this, _MaffSlider_linkedTo, "f").push(target);
+    addOnUpdate(listener) {
+        __classPrivateFieldGet(this, _MaffSlider_updateListeners, "f").push(listener);
     }
 }
-_MaffSlider_display = new WeakMap(), _MaffSlider_label = new WeakMap(), _MaffSlider_input = new WeakMap(), _MaffSlider_shadowRoot = new WeakMap(), _MaffSlider_linkedTo = new WeakMap();
+_MaffSlider_display = new WeakMap(), _MaffSlider_label = new WeakMap(), _MaffSlider_input = new WeakMap(), _MaffSlider_shadowRoot = new WeakMap(), _MaffSlider_updateListeners = new WeakMap();
 customElements.define('maff-slider', MaffSlider);
