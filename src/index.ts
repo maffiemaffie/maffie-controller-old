@@ -1,9 +1,8 @@
 class MaffSlider extends HTMLElement {
-    #display:HTMLParagraphElement;
-    #label:HTMLLabelElement;
-    #input:HTMLInputElement;
-    #shadowRoot:ShadowRoot;
-    #updateListeners:Array<UpdateListener> = [];
+    protected display:HTMLParagraphElement;
+    protected label:HTMLLabelElement;
+    protected input:HTMLInputElement;
+    protected linkedTo:Array<LinkTarget> = [];
 
     constructor(id:string, label:string) {
         super();
@@ -11,23 +10,23 @@ class MaffSlider extends HTMLElement {
         const template:HTMLTemplateElement = document.querySelector('#maff-slider')!;
         const templateContent = template.content;
 
-        this.#shadowRoot = this.attachShadow({ mode: "open" });
-        this.#shadowRoot.appendChild(templateContent.cloneNode(true));
+        this.shadowRoot = this.attachShadow({ mode: "open" });
+        this.shadowRoot.appendChild(templateContent.cloneNode(true));
 
-        this.#display = this.#shadowRoot.querySelector('p')!;
-        this.#label = this.#shadowRoot.querySelector('label span')!;
-        this.#input = this.#shadowRoot.querySelector('input')!;
+        this.display = this.shadowRoot.querySelector('p')!;
+        this.label = this.shadowRoot.querySelector('label span')!;
+        this.input = this.shadowRoot.querySelector('input')!;
     }
 
     static get observedAttributes() { return ['data-label', 'data-min', 'data-max', 'data-step', 'data-value']; }
 
     connectedCallback() {
-        this.#display.innerText = this.#input.value;
-        this.#input.addEventListener('input', e => {
-            this.#display.innerText = (e.target as HTMLInputElement).value;
-            this.#updateListeners.forEach(listener => {
-                listener.onUpdate.call(listener, (e.target as HTMLInputElement).value);
-            });
+        this.display.innerText = this.input.value;
+        this.input.addEventListener('input', e => {
+            this.display.innerText = (e.target as HTMLInputElement).value;
+            this.linkedTo.forEach(target => {
+                target.obj[target.key] = (e.target as HTMLInputElement).value;
+            })
         });
     }
 
@@ -35,34 +34,31 @@ class MaffSlider extends HTMLElement {
         if (oldValue === newValue) return;
         switch (name) {
             case "data-label":
-                this.#label.innerText = newValue;
+                this.label.innerText = newValue;
                 break;
             case "data-min":
-                this.#input.min = newValue;
+                this.input.min = newValue;
                 break;
             case "data-max":
-                this.#input.max = newValue;
+                this.input.max = newValue;
                 break;
             case "data-step":
-                this.#input.step = newValue;
+                this.input.step = newValue;
                 break;
             case "data-value":
-                this.#input.value = newValue;
+                this.input.value = newValue;
                 break;
         }
     }
 
-    addOnUpdate(listener:UpdateListener) {
-        this.#updateListeners.push(listener);
+    link(target:LinkTarget) {
+        this.linkedTo.push(target);
     }
 }
 
-interface UpdateListener {
-    onUpdate:(newValue:string) => void;
+interface LinkTarget {
+    key:string;
+    obj:object;
 }
 
 customElements.define('maff-slider', MaffSlider);
-
-class LabeledControl extends HTMLElement {
-    #display:
-}
