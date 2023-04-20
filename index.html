@@ -23,8 +23,21 @@
         </label>
     </template>
 
+    <template id="maff-checkbox">
+        <style>
+            label, input {
+                display: inline;
+            }
+        </style>
+        <label>
+            <span>unnamed checkbox</span>
+            <input type="checkbox">
+        </label>
+    </template>
+
     <div id="control-panel">
         <maff-slider data-label="maffie" data-min="0" data-max="50" data-step="10" data-value="20"></maff-slider>
+        <maff-checkbox data-label="maffie"></maff-checkbox>
     </div>
 </body>
 </html>

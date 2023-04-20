@@ -1,14 +1,12 @@
-import { Control } from "./control";
-
+import { Control } from "./control.js";
 class Slider extends Control {
-    getTemplate(): HTMLTemplateElement {
-        return document.querySelector('#maff-slider')!;
+    getTemplate() {
+        return document.querySelector('#maff-slider');
     }
-
     static get observedAttributes() { return ['data-label', 'data-min', 'data-max', 'data-step', 'data-value']; }
-
-    attributeChangedCallback(name:string, oldValue:string, newValue:string) {
-        if (oldValue === newValue) return;
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue === newValue)
+            return;
         switch (name) {
             case "data-label":
                 this.label.innerText = newValue;
@@ -29,5 +27,4 @@ class Slider extends Control {
     }
 }
 customElements.define('maff-slider', Slider);
-
 export { Slider };
